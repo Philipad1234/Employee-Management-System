@@ -1,5 +1,6 @@
 import express from 'express';
-import adminModel from '../utils/adminSchema.js'
+import adminModel from '../utils/Schemas/adminSchema.js'
+import departmentModel from '../utils/Schemas/departmentSchema.js'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 
