@@ -12,10 +12,12 @@ app.use(cors({
     credentials: true
 }
 ))
-app.use(express.json())
+
 const port = process.env.PORT || 2800
 
-// Routes
+app.use(express.json())
+
+// Router
 app.use('/auth', adminRouter)
 
 

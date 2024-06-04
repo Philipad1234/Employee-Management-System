@@ -26,7 +26,7 @@ const Dashboard = () => {
                                     to="/dashboard"
                                     className='nav-link text-white px-0 align-middle'
                                 >
-                                    <i class="fs-5 ms-2 bi bi-speedometer"></i>
+                                    <i className="fs-5 ms-2 bi bi-speedometer"></i>
                                     <span className='ms-2 d-none d-sm-inline'>
                                         Dashboard
                                     </span>
@@ -37,7 +37,7 @@ const Dashboard = () => {
                                     to="/dashboard/employees"
                                     className='nav-link text-white px-0 align-middle'
                                 >
-                                    <i class="fs-5 ms-2 bi bi-people-fill"></i>
+                                    <i className="fs-5 ms-2 bi bi-people-fill"></i>
                                     <span className='ms-2 d-none d-sm-inline'>
                                         Manage Employees
                                     </span>
@@ -48,7 +48,7 @@ const Dashboard = () => {
                                     to="/dashboard/departments"
                                     className='nav-link text-white px-0 align-middle'
                                 >
-                                    <i class="fs-5 ms-2 bi bi-distribute-vertical"></i>
+                                    <i className="fs-5 ms-2 bi bi-distribute-vertical"></i>
                                     <span className='ms-2 d-none d-sm-inline'>
                                         Departments
                                     </span>
@@ -59,7 +59,7 @@ const Dashboard = () => {
                                     to="/dashboard/profile"
                                     className='nav-link text-white px-0 align-middle'
                                 >
-                                    <i class="fs-5 ms-2 bi bi-person-circle"></i>
+                                    <i className="fs-5 ms-2 bi bi-person-circle"></i>
                                     <span className='ms-2 d-none d-sm-inline'>
                                         Profile
                                     </span>
@@ -70,7 +70,7 @@ const Dashboard = () => {
 
                                     className='nav-link text-white px-0 align-middle'
                                 >
-                                    <i class="fs-5 ms-2 bi bi-power"></i>
+                                    <i className="fs-5 ms-2 bi bi-power"></i>
                                     <span className='ms-2 d-none d-sm-inline'>
                                         Logout
                                     </span>

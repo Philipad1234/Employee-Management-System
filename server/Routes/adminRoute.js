@@ -17,21 +17,47 @@ router.post('/adminlogin', async (req, res) => {
         "email": req.body.email,
         "password": req.body.password
     })
-            if (adminExist) {
-                const email = adminExist.email;
-                const token = jwt.sign(
-                    { role: 'admin', email: email },
-                    jwt_token,
-                    { expiresIn: '1d' }
-                )
-                res.cookie('token', token)
-                return res.json({ loginStatus: true })
-            } else {
-                return res.json({ loginStatus: false, Error: "Wrong email or password" })
-            }
-        
+    if (adminExist) {
+        const email = adminExist.email;
+        const token = jwt.sign(
+            { role: 'admin', email: email },
+            jwt_token,
+            { expiresIn: '1d' }
+        )
+        res.cookie('token', token)
+        return res.json({ loginStatus: true })
+    } else {
+        return res.json({ loginStatus: false, Error: "Wrong email or password" })
+    }
+
 
 })
+
+
+
+router.get('/departments', async (req, res) => {
+  await departmentModel.find()
+.then(departments => { return res.json({ Status: true, departments: departments })})
+.catch(err => { return res.json({ Status: false, Error: 'Query Error' })})
+})
+
+router.post('/add_department', async (req, res) => {
+    const department = req.body.department
+    try {
+        await departmentModel.create({
+            "name": department
+        });
+        return res.json({ Status: true });
+    } catch (err) {
+        return res.json({ Status: false, Error: 'Query Error' });
+    }
+
+
+})
+
+
+
+
 
 
 export { router as adminRouter }

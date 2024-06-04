@@ -9,14 +9,15 @@ const MONGOOSE_URL = process.env.URL
 
 mongoose
 .connect(MONGOOSE_URL)
-
+.then(() => {
+    console.log('Database Connected!')
+})
+.catch((error)=>{
+    console.log(error)
+})
 
 const departmentSchema = new mongoose.Schema({
-    
-    name: {
-        type: String,
-        required: true
-    }
+    name: String
 })
 
 
