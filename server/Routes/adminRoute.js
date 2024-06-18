@@ -1,8 +1,12 @@
 import express from 'express';
-import adminModel from '../utils/Schemas/adminSchema.js'
-import departmentModel from '../utils/Schemas/departmentSchema.js'
-import jwt from 'jsonwebtoken'
-import dotenv from 'dotenv'
+import adminModel from '../utils/Schemas/adminSchema.js';
+import departmentModel from '../utils/Schemas/departmentSchema.js';
+import employeeModel from '../utils/Schemas/employeeSchema.js';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import multer from 'multer';
+import path from 'path';
+import dotenv from 'dotenv';
 
 
 dotenv.config()
@@ -33,12 +37,36 @@ router.post('/adminlogin', async (req, res) => {
 
 })
 
+router.post('/add_employee', async (req, res) => {
+
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
+
+    const user = ({
+        "name": req.body.name,
+        "email": req.body.email,
+        "password": hashedPassword,
+        "address": req.body.address,
+        "salary": req.body.salary,
+        "image": req.body.image,
+        "department": req.body.department_id
+    })
+   
+        try {
+            await employeeModel.create(user);
+            return res.json({ Status: true });
+        } catch (err) {
+            return res.json({ Status: false, Error: 'Query Error' });
+        }
+ 
+   
+})
 
 
 router.get('/departments', async (req, res) => {
-  await departmentModel.find()
-.then(departments => { return res.json({ Status: true, departments: departments })})
-.catch(err => { return res.json({ Status: false, Error: 'Query Error' })})
+    await departmentModel.find()
+        .then(departments => { return res.json({ Status: true, departments: departments }) })
+        .catch(err => { return res.json({ Status: false, Error: 'Query Error' }) })
 })
 
 router.post('/add_department', async (req, res) => {

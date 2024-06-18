@@ -22,7 +22,7 @@ const Departments = () => {
                 <h3>Departments</h3>
             </div>
             <Link to='/dashboard/add_department' className='btn btn-primary'>Add Department</Link>
-            <div>
+            <div className='mt-3'>
                 <table className="table mt-5">
                     <thead className="table-dark">
                         <tr>

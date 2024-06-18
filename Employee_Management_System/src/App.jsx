@@ -8,6 +8,7 @@ import Employees from './components/Employees'
 import Departments from './components/Departments'
 import Profile from './components/Profile'
 import AddDepartment from './components/AddDepartment'
+import AddEmployee from './components/AddEmployee'
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path='/dashboard/departments' element={<Departments />}></Route>
         <Route path='/dashboard/profile' element={<Profile />}></Route>
         <Route path='/dashboard/add_department' element={<AddDepartment />}></Route>
+        <Route path='/dashboard/add_employee' element={<AddEmployee />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

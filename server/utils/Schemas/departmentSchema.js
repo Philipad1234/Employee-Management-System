@@ -8,16 +8,19 @@ dotenv.config()
 const MONGOOSE_URL = process.env.URL
 
 mongoose
-.connect(MONGOOSE_URL)
-.then(() => {
-    console.log('Database Connected!')
-})
-.catch((error)=>{
-    console.log(error)
-})
+    .connect(MONGOOSE_URL)
+    .then(() => {
+        console.log('Database Connected!')
+    })
+    .catch((error) => {
+        console.log(error)
+    })
 
 const departmentSchema = new mongoose.Schema({
-    name: String
+    name: {
+        type: String,
+        required: true
+    }
 })
 
 
