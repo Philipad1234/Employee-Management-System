@@ -37,7 +37,22 @@ router.post('/adminlogin', async (req, res) => {
 
 })
 
-router.post('/add_employee', async (req, res) => {
+// image upload start
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'public/images')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '_' + Date.now() + path.extname(file.originalname))
+    }
+})
+
+const upload = multer({
+    storage: storage
+})
+// image upload end
+
+router.post('/add_employee', upload.single('image'),async (req, res) => {
 
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
@@ -48,26 +63,20 @@ router.post('/add_employee', async (req, res) => {
         "password": hashedPassword,
         "address": req.body.address,
         "salary": req.body.salary,
-        "image": req.body.image,
-        "department": req.body.department_id
+        "image": req.file.filename,
+        "department_id": req.body.department_id
     })
-   
-        try {
-            await employeeModel.create(user);
-            return res.json({ Status: true });
-        } catch (err) {
-            return res.json({ Status: false, Error: 'Query Error' });
-        }
- 
-   
-})
+
+    try {
+        await employeeModel.create(user);
+        return res.json({ Status: true });
+    } catch (err) {
+        return res.json({ Status: false, Error: 'Query Error' });
+    }
 
 
-router.get('/departments', async (req, res) => {
-    await departmentModel.find()
-        .then(departments => { return res.json({ Status: true, departments: departments }) })
-        .catch(err => { return res.json({ Status: false, Error: 'Query Error' }) })
 })
+
 
 router.post('/add_department', async (req, res) => {
     const department = req.body.department
@@ -84,6 +93,30 @@ router.post('/add_department', async (req, res) => {
 })
 
 
+router.get('/departments', async (req, res) => {
+    await departmentModel.find()
+        .then(departments => { return res.json({ Status: true, departments: departments }) })
+        .catch(err => { return res.json({ Status: false, Error: 'Query Error' }) })
+})
+
+
+router.get('/employees', async (req, res) => {
+    await employeeModel.find()
+        .then(employees => { return res.json({ Status: true, employees: employees }) })
+        .catch(err => { return res.json({ Status: false, Error: 'Query Error' }) })
+})
+
+router.get('/employees/:_id', async (req, res) => {
+    
+    const id = req.params._id
+   await employeeModel.find({"_id": id})
+   .then(employee => { return res.json({ Status: true, employee: employee }) })
+   .catch(err => { return res.json({ Status: false, Error: 'Query Error' }) })
+})
+
+router.put('/edit_employee/:_id', async (req, res)=>{
+    const id = req.params.id;
+})
 
 
 

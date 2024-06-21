@@ -9,40 +9,41 @@ dotenv.config()
 const MONGOOSE_URL = process.env.URL
 
 mongoose
-.connect(MONGOOSE_URL)
-.then(() => {
-    console.log('Database Connected!')
-})
-.catch((error)=>{
-    console.log(error)
-})
+    .connect(MONGOOSE_URL)
+    .then(() => {
+        console.log('Database Connected!')
+    })
+    .catch((error) => {
+        console.log(error)
+    })
 
 const employeeSchema = new mongoose.Schema({
+    
     name: {
-        type: String, 
+        type: String,
         required: true
     },
     email: {
-        type: String, 
+        type: String,
         required: true
     },
     password: {
-        type: String, 
+        type: String,
         required: true
     },
     salary: {
         type: Number
     },
     address: {
-        type: String, 
+        type: String,
         required: true
     },
     image: {
         type: String
     },
-    department_id: { 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'departments' 
+    department_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'departments'
     },
     createdAt: {
         type: Date,

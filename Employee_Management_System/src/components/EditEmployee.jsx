@@ -1,22 +1,20 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 
-const AddEmployee = () => {
+const EditEmployee = () => {
+    const { _id } = useParams()
     const [employee, setEmployee] = useState({
 
         name: '',
         email: '',
-        password: '',
         salary: '',
         address: '',
-        department_id: '',
-        image: ''
-
+        department_id: ''
     })
+
     const [department, setDepartment] = useState([])
-    const navigate = useNavigate()
 
     useEffect(() => {
         axios.get('http://localhost:3000/auth/departments')
@@ -29,35 +27,31 @@ const AddEmployee = () => {
             }).catch(err => {
                 console.log(err)
             })
-    }, []);
+
+        axios.get('http://localhost:3000/auth/employees/'+_id)
+            .then(result => {
+               setEmployee({
+                ...employee,
+                name: result.data.employee[0].name,
+                email: result.data.employee[0].email,
+                address: result.data.employee[0].address,
+                salary: result.data.employee[0].salary
+               })
+            }).catch(err => console.log(err))
+    }, [])
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        const formData = new FormData();
-        formData.append('name', employee.name);
-        formData.append('email', employee.email);
-        formData.append('password', employee.password);
-        formData.append('address', employee.address);
-        formData.append('salary', employee.salary);
-        formData.append('image', employee.image);
-        formData.append('department_id', employee.department_id);
-
-        axios.post('http://localhost:3000/auth/add_employee', formData)
-            .then(result => {
-                if (result.data.Status) {
-                    navigate('/dashboard/employees')
-                } else {
-                    alert(result.data.Error)
-                }
-            })
-            .catch(err => console.log(err))
+        axios.put('http://localhost:3000/auth/edit_employee/'+_id, employee)
+        .then(result => {
+            console.log(result.data)
+        }).catch(err => console.log(err))
     }
-
     return (
         <div className='d-flex justify-content-center align-items-center mt-5'>
             <div className='p-3 rounded w-50 border'>
 
-                <h3 className='text-center'>Add Employee</h3>
+                <h3 className='text-center'>Edit Employee</h3>
                 <form className='row g-1' onSubmit={handleSubmit}>
                     <div className='col-12'>
                         <label for='inputName' className='form-label'>
@@ -67,6 +61,7 @@ const AddEmployee = () => {
                             type='text'
                             id='inputName'
                             placeholder='Enter name'
+                            value={employee.name}
                             className='form-control rounded-0'
                             onChange={(e) => setEmployee({ ...employee, name: e.target.value })}
                         />
@@ -80,25 +75,12 @@ const AddEmployee = () => {
                             type='email'
                             id='inputEmail4'
                             placeholder='Enter email'
+                            value={employee.email}
                             className='form-control rounded-0'
                             autoComplete='off'
                             onChange={(e) => setEmployee({ ...employee, email: e.target.value })}
                         />
                     </div>
-
-                    <div className='col-12'>
-                        <label for='inputPassword4' className='form-label'>
-                            Password
-                        </label>
-                        <input
-                            type='password'
-                            id='inputPassword4'
-                            placeholder='Enter password'
-                            className='form-control rounded-0'
-                            onChange={(e) => setEmployee({ ...employee, password: e.target.value })}
-                        />
-                    </div>
-
                     <div className='col-12'>
                         <label for='inputSalary' className='form-label'>
                             Salary
@@ -107,6 +89,7 @@ const AddEmployee = () => {
                             type='text'
                             id='inputSalary'
                             placeholder='Enter salary'
+                            value={employee.salary}
                             className='form-control rounded-0'
                             autoComplete='off'
                             onChange={(e) => setEmployee({ ...employee, salary: e.target.value })}
@@ -121,6 +104,7 @@ const AddEmployee = () => {
                             type='text'
                             id='inputAddress'
                             placeholder='Enter address'
+                            value={employee.address}
                             className='form-control rounded-0'
                             autoComplete='off'
                             onChange={(e) => setEmployee({ ...employee, address: e.target.value })}
@@ -143,22 +127,9 @@ const AddEmployee = () => {
                         </select>
                     </div>
 
-                    <div className='col-12 mb-3'>
-                        <label for='inputGroupFile01' className='form-label'>
-                            Select Image
-                        </label>
-                        <input
-                            type='file'
-                            id='inputGroupFile01'
-                            name='image'
-                            className='form-control rounded-0'
-                            onChange={(e) => setEmployee({ ...employee, image: e.target.files[0] })}
-                        />
-                    </div>
-
                     <div className='col-12'>
                         <button type='submit' className='btn btn-primary w-100'>
-                            Add employee
+                            Edit
                         </button>
                     </div>
 
@@ -168,4 +139,4 @@ const AddEmployee = () => {
     )
 }
 
-export default AddEmployee
+export default EditEmployee

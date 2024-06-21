@@ -19,6 +19,7 @@ app.use(express.json())
 
 // Router
 app.use('/auth', adminRouter)
+app.use(express.static('public'))
 
 
 
