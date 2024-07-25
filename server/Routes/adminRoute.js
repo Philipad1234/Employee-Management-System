@@ -7,6 +7,7 @@ import bcrypt from 'bcrypt';
 import multer from 'multer';
 import path from 'path';
 import dotenv from 'dotenv';
+import { ObjectId } from 'mongodb'
 
 
 dotenv.config()
@@ -52,7 +53,7 @@ const upload = multer({
 })
 // image upload end
 
-router.post('/add_employee', upload.single('image'),async (req, res) => {
+router.post('/add_employee', upload.single('image'), async (req, res) => {
 
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
@@ -107,15 +108,31 @@ router.get('/employees', async (req, res) => {
 })
 
 router.get('/employees/:_id', async (req, res) => {
-    
+
     const id = req.params._id
-   await employeeModel.find({"_id": id})
-   .then(employee => { return res.json({ Status: true, employee: employee }) })
-   .catch(err => { return res.json({ Status: false, Error: 'Query Error' }) })
+    await employeeModel.find({ "_id": id })
+        .then(employee => { return res.json({ Status: true, employee: employee }) })
+        .catch(err => { return res.json({ Status: false, Error: 'Query Error' }) })
 })
 
-router.put('/edit_employee/:_id', async (req, res)=>{
-    const id = req.params.id;
+router.put('/edit_employee/:_id', async (req, res) => {
+    const id = req.params._id;
+    console.log(id)
+    await employeeModel.updateOne(
+        { "_id": id },
+        {
+            $set: {
+                "name": req.body.name,
+                "email": req.body.email,
+                "salary": req.body.salary,
+                "address": req.body.address,
+                "department_id": req.body.department_id
+            }
+        }
+    )
+        .then(employee => { return res.json({ Status: true, employee: employee }) })
+        .catch(err => { return res.json({ Status: false, Error: 'Query Error' }) })
+
 })
 
 
