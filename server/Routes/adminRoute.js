@@ -6,15 +6,16 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import multer from 'multer';
 import path from 'path';
+import mongoose from 'mongoose'
 import dotenv from 'dotenv';
-import { ObjectId } from 'mongodb'
+
 
 
 dotenv.config()
 
 const router = express.Router();
 
-const jwt_token = process.env.TOKEN
+const jwt_token = process.env.ADMIN_TOKEN
 
 router.post('/adminlogin', async (req, res) => {
 
@@ -117,25 +118,51 @@ router.get('/employees/:_id', async (req, res) => {
 
 router.put('/edit_employee/:_id', async (req, res) => {
     const id = req.params._id;
-    console.log(id)
-    await employeeModel.updateOne(
-        { "_id": id },
-        {
-            $set: {
-                "name": req.body.name,
-                "email": req.body.email,
-                "salary": req.body.salary,
-                "address": req.body.address,
-                "department_id": req.body.department_id
-            }
-        }
-    )
-        .then(employee => { return res.json({ Status: true, employee: employee }) })
-        .catch(err => { return res.json({ Status: false, Error: 'Query Error' }) })
 
+    await employeeModel.updateOne({ '_id': id }, {
+        $set: {
+            "name": req.body.name,
+            "email": req.body.email,
+            "salary": req.body.salary,
+            "address": req.body.address,
+            "department_id": new mongoose.Types.ObjectId(req.body.department_id)
+        }
+    })
+    .then(employee => {return res.json({ Status: true, employee: employee})})
+    .catch(err => {return res.json({ Status: false, Error: 'Query Error' })})
+   
 })
 
+router.delete('/delete_employee/:_id', async(req, res) => {
+    const id = req.params._id
 
+    await employeeModel.findOneAndDelete({ '_id': new mongoose.Types.ObjectId(id) })
+    .then(employee => {return res.json({ Status: true, employee: employee})})
+    .catch(err => {return res.json({ Status: false, Error: 'Query Error' })})
+})
+
+router.get('/admin_count', async (req, res)=>{
+    await adminModel.countDocuments()
+    .then(adminCount => {return res.json({ Status: true, adminCount: adminCount})})
+    .catch(err => {return res.json({ Status: false, Error: 'Query Error' })})
+})
+
+router.get('/employee_count', async (req, res)=>{
+    await employeeModel.countDocuments()
+    .then(employeeCount => {return res.json({ Status: true, employeeCount: employeeCount})})
+    .catch(err => {return res.json({ Status: false, Error: 'Query Error' })})
+})
+
+router.get('/department_count', async (req, res)=>{
+    await departmentModel.countDocuments()
+    .then(departmentCount => {return res.json({ Status: true, departmentCount: departmentCount})})
+    .catch(err => {return res.json({ Status: false, Error: 'Query Error' })})
+})
+
+router.get('/logout', (req, res)=>{
+    res.clearCookie('token')
+    return res.json({ Status: true})
+})
 
 
 export { router as adminRouter }

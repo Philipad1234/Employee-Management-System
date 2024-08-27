@@ -10,6 +10,8 @@ import Profile from './components/Profile'
 import AddDepartment from './components/AddDepartment'
 import AddEmployee from './components/AddEmployee'
 import EditEmployee from './components/EditEmployee'
+import Landing from './components/Landing'
+import EmployeeLogin from './components/EmployeeLogin'
 
 
 function App() {
@@ -17,7 +19,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+      <Route path='/landing' element={<Landing />}></Route>
         <Route path='/adminlogin' element={<Login />}></Route>
+        <Route path='/employeelogin' element={<EmployeeLogin />}></Route>
         <Route path='/dashboard' element={<Dashboard />}>
         <Route path='' element={<Home />}></Route>
         <Route path='/dashboard/employees' element={<Employees />}></Route>

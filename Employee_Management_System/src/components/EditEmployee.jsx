@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 
 const EditEmployee = () => {
@@ -15,6 +15,7 @@ const EditEmployee = () => {
     })
 
     const [department, setDepartment] = useState([])
+    const navigate = useNavigate()
 
     useEffect(() => {
         axios.get('http://localhost:3000/auth/departments')
@@ -35,7 +36,8 @@ const EditEmployee = () => {
                 name: result.data.employee[0].name,
                 email: result.data.employee[0].email,
                 address: result.data.employee[0].address,
-                salary: result.data.employee[0].salary
+                salary: result.data.employee[0].salary,
+                department_id: result.data.employee[0].department_id
                })
             }).catch(err => console.log(err))
     }, [])
@@ -44,9 +46,14 @@ const EditEmployee = () => {
         e.preventDefault()
         axios.put('http://localhost:3000/auth/edit_employee/'+_id, employee)
         .then(result => {
-            console.log(result.data)
+            if(result.data.Status) {
+                navigate('/dashboard/employees')
+            }else{
+                alert(result.data.Error)
+            }
         }).catch(err => console.log(err))
     }
+
     return (
         <div className='d-flex justify-content-center align-items-center mt-5'>
             <div className='p-3 rounded w-50 border'>
