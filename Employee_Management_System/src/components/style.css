@@ -1,0 +1,28 @@
+.loginPage {
+    background: url('images/doxabetaHR.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.loginForm {
+    background-color: rgba(255, 255, 255, 0.12);
+    color: #000;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+.nav-link-container{
+    padding: 0 15px 0 0;
+}
+.nav-link-container:hover{
+    background-color: #3f3c3c;
+    border-radius: 6px;
+    transition: 0.2s ease-in-out;
+}
+.employee_image{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
