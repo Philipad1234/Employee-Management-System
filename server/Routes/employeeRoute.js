@@ -1,11 +1,7 @@
 import express from 'express';
-import adminModel from '../utils/Schemas/adminSchema.js';
-import departmentModel from '../utils/Schemas/departmentSchema.js';
 import employeeModel from '../utils/Schemas/employeeSchema.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import path from 'path';
-import mongoose from 'mongoose'
 import dotenv from 'dotenv';
 
 
