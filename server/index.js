@@ -1,7 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
-import { adminRouter } from './Routes/adminRoute.js'
+import { adminRouter } from './Routes/adminRo ute.js'
 import { employeeRouter } from './Routes/EmployeeRoute.js'
 
 
@@ -9,7 +9,7 @@ import { employeeRouter } from './Routes/EmployeeRoute.js'
 const app = express();
 dotenv.config()
 app.use(cors({ 
-    origin: ['http://127.0.0.1:5173'],
+    origin: ['https://employee-management-system-rosy.vercel.app/'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
 }
